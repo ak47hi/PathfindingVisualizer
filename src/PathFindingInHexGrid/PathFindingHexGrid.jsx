@@ -254,9 +254,18 @@ export default function Canvas() {
 
     const { q, r, s } = CubeRound(PixelToHex(Point(offsetX, offsetY)));
     const object = HexToPixel(Hex(q, r, s));
+    const { canvasWidth, canvasHeight } = canvasState.canvasSize;
+    const { hexHeight, hexWidth, vertDist, horizDist } = canvasState.hexParams;
     // console.log(q, startHex.q);
     // console.log(r, startHex.r);
-    if (q === startHex.q && r === startHex.r) {
+    if (
+      q === startHex.q &&
+      r === startHex.r &&
+      object.x > hexWidth / 2 &&
+      object.x < canvasWidth - hexWidth / 2 &&
+      object.y > hexHeight / 2 &&
+      object.y < canvasHeight - hexHeight / 2
+    ) {
       console.log("in start Node");
       updateStartNode({ ...startHex, clicked: true });
       console.log(cloneDeep(startHex));
@@ -265,7 +274,14 @@ export default function Canvas() {
       setGridMap({ ...gridMap, mouseIsPressed: true });
       return;
     }
-    if (q === finishHex.q && r === finishHex.r) {
+    if (
+      q === finishHex.q &&
+      r === finishHex.r &&
+      object.x > hexWidth / 2 &&
+      object.x < canvasWidth - hexWidth / 2 &&
+      object.y > hexHeight / 2 &&
+      object.y < canvasHeight - hexHeight / 2
+    ) {
       console.log("in finish Node");
       updateFinishNode({ ...finishHex, clicked: true });
       console.log(cloneDeep(finishHex));
@@ -300,13 +316,21 @@ export default function Canvas() {
     let offsetX = event.clientX - canvasPosition.left;
     let offsetY = event.clientY - canvasPosition.top;
     const { q, r, s } = CubeRound(PixelToHex(Point(offsetX, offsetY)));
+    const { canvasWidth, canvasHeight } = canvasState.canvasSize;
+    const { hexHeight, hexWidth, vertDist, horizDist } = canvasState.hexParams;
     const object = HexToPixel(Hex(q, r, s));
 
     // if (q == start.q && r == start.r){
 
     // }
     // if (!wallSet.has({ x, y }))
-    if (startHex.clicked == true) {
+    if (
+      startHex.clicked == true &&
+      object.x > hexWidth / 2 &&
+      object.x < canvasWidth - hexWidth / 2 &&
+      object.y > hexHeight / 2 &&
+      object.y < canvasHeight - hexHeight / 2
+    ) {
       updateStartNode({
         ...startHex,
         q: q,
@@ -318,7 +342,13 @@ export default function Canvas() {
       // setGridMap({ ...gridMap, grid: newGrid });
       return;
     }
-    if (finishHex.clicked == true) {
+    if (
+      finishHex.clicked == true &&
+      object.x > hexWidth / 2 &&
+      object.x < canvasWidth - hexWidth / 2 &&
+      object.y > hexHeight / 2 &&
+      object.y < canvasHeight - hexHeight / 2
+    ) {
       updateFinishNode({
         ...finishHex,
         q: q,
